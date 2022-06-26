@@ -69,24 +69,52 @@
 
 // Sườn thông tin cho mọi người dễ làm
 
+use std::collections::HashMap;
+
 pub struct School {
     // !TODO
+    students: HashMap<String, u32>,
 }
 
 impl School {
     pub fn new() -> School {
-        unimplemented!()
+        School {
+            students: HashMap::new(),
+        }
     }
 
     pub fn add(&mut self, grade: u32, student: &str) {
-        unimplemented!()
+        self.students.insert(student.to_string(), grade);
     }
 
     pub fn grades(&self) -> Vec<u32> {
-        unimplemented!()
+        let mut grades = Vec::new();
+
+        for grade in self.students.values() {
+            grades.push(*grade);
+        }
+        grades.sort();
+        grades.dedup();
+        grades
     }
 
     pub fn grade(&self, grade: u32) -> Vec<String> {
-        unimplemented!()
+        let mut students = Vec::new();
+        for (student, student_grade) in self.students.iter() {
+            if *student_grade == grade {
+                students.push(student.to_string());
+            }
+        }
+        students
     }
+}
+
+pub fn baitap() {
+    let mut school = School::new();
+    school.add(10, "Alice");
+    school.add(7, "Bob");
+    school.add(4, "Charlie");
+    school.add(3, "David");
+    school.add(10, "Eve");
+    println!("{:?}", school.grade(10))
 }
